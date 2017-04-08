@@ -10,15 +10,6 @@ use Psr\Http\Message\{
 
 class HomeController extends Controller
 {
-    /**
-     * Render the homepage.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  array $args
-     *
-     * @return mixed
-     */
     public function index(Request $request, Response $response, $args)
     {
         return $this->c->view->render($response, 'home/index.twig', [
