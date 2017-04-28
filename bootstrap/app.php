@@ -17,7 +17,7 @@ $app = new Slim\App([
         ],
 
         'views' => [
-            'cache' => __DIR__ . '/../storage/views'
+            'cache' => getenv('APP_CACHE')=='true' ? __DIR__ . '/../storage/views' : false,
         ]
     ],
 ]);
