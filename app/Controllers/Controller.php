@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Interop\Container\ContainerInterface;
+use DI\Container;
 
 abstract class Controller
 {
@@ -18,7 +18,7 @@ abstract class Controller
      *
      * @param \Interop\Container\ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Container $container)
     {
         $this->c = $container;
     }

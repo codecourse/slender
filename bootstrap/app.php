@@ -8,8 +8,14 @@ try {
     //
 }
 
-$app = new Slim\App([
-    'settings' => [
+$container = new DI\Container();
+
+Slim\Factory\AppFactory::setContainer($container);
+
+$app = Slim\Factory\AppFactory::create();
+
+$container->set('settings', function () {
+    return [
         'displayErrorDetails' => getenv('APP_DEBUG') === 'true',
 
         'app' => [
@@ -19,20 +25,19 @@ $app = new Slim\App([
         'views' => [
             'cache' => getenv('VIEW_CACHE_DISABLED') === 'true' ? false : __DIR__ . '/../storage/views'
         ]
-    ],
+    ];
+});
+
+$twig = new Slim\Views\Twig(__DIR__ . '/../resources/views', [
+    'cache' => $container->get('settings')['views']['cache']
 ]);
 
-$container = $app->getContainer();
+$twigMiddleware = new Slim\Views\TwigMiddleware(
+    $twig,
+    $container,
+    $app->getRouteCollector()->getRouteParser()
+);
 
-$container['view'] = function ($container) {
-    $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
-        'cache' => $container->settings['views']['cache']
-    ]);
-
-    $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
-    $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
-
-    return $view;
-};
+$app->add($twigMiddleware);
 
 require_once __DIR__ . '/../routes/web.php';
