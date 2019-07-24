@@ -3,7 +3,13 @@ A slender starter structure for Slim 3
 
 ## Installation
 
+### For Slim 3
+
 `composer create-project codecourse/slender projectname`
+
+### For Slim 4
+
+`composer create-project "codecourse/slender 2.0" projectname`
 
 ## What's this all about then?
 
