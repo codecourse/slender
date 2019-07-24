@@ -1,5 +1,5 @@
 # slender
-A slender starter structure for Slim 3
+A slender starter structure for the [Slim PHP framework](http://www.slimframework.com/)
 
 ## Installation
 
