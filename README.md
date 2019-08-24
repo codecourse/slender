@@ -5,7 +5,7 @@ A slender starter structure for the [Slim PHP framework](http://www.slimframewor
 
 ### For Slim 3
 
-`composer create-project codecourse/slender projectname`
+`composer create-project "codecourse/slender 1.0.2" projectname`
 
 ### For Slim 4
 
