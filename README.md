@@ -9,7 +9,7 @@ A slender starter structure for the [Slim PHP framework](http://www.slimframewor
 
 ### For Slim 4
 
-`composer create-project "codecourse/slender 2.0" projectname`
+`composer create-project codecourse/slender projectname`
 
 ## What's this all about then?
 
