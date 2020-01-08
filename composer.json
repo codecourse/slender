@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "slim/slim": "4.3.0",
+        "slim/slim": "4.4.0",
         "slim/twig-view": "3.0.0-alpha",
         "symfony/var-dumper": "^3.2",
         "vlucas/phpdotenv": "^2.4",

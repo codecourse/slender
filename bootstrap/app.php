@@ -1,43 +1,48 @@
 <?php
 
+use Dotenv\Dotenv;
+use Slim\Views\Twig;
+use Slim\Factory\AppFactory;
+use Slim\Views\TwigExtension;
+use Slim\Psr7\Factory\UriFactory;
+use Dotenv\Exception\InvalidPathException;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
+    (new Dotenv(__DIR__ . '/../'))->load();
+} catch (InvalidPathException $e) {
     //
 }
 
 $container = new DI\Container();
 
-Slim\Factory\AppFactory::setContainer($container);
+AppFactory::setContainer($container);
 
-$app = Slim\Factory\AppFactory::create();
+$app = AppFactory::create();
 
 $container->set('settings', function () {
     return [
-        'displayErrorDetails' => getenv('APP_DEBUG') === 'true',
-
         'app' => [
             'name' => getenv('APP_NAME')
-        ],
-
-        'views' => [
-            'cache' => getenv('VIEW_CACHE_DISABLED') === 'true' ? false : __DIR__ . '/../storage/views'
         ]
     ];
 });
 
-$twig = new Slim\Views\Twig(__DIR__ . '/../resources/views', [
-    'cache' => $container->get('settings')['views']['cache']
-]);
+$container->set('view', function ($container) use ($app) {
+    $twig = new Twig(__DIR__ . '/../resources/views', [
+        'cache' => false
+    ]);
 
-$twigMiddleware = new Slim\Views\TwigMiddleware(
-    $twig,
-    $container,
-    $app->getRouteCollector()->getRouteParser()
-);
+    $twig->addExtension(
+        new TwigExtension(
+            $app->getRouteCollector()->getRouteParser(),
+            (new UriFactory)->createFromGlobals($_SERVER),
+            '/'
+        )
+    );
 
-$app->add($twigMiddleware);
+    return $twig;
+});
 
 require_once __DIR__ . '/../routes/web.php';
