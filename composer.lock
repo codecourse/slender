@@ -613,7 +613,7 @@
         },
         {
             "name": "slim/psr7",
-            "version": "0.3.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim-Psr7.git",
